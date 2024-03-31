@@ -29,7 +29,7 @@ Devise.setup do |config|
   # with default "from" parameter.
   config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
 
-  #config.omniauth :google_oauth2, '363347043044-gf9r1drk66uqvcmc6esqk02his5lv8jv.apps.googleusercontent.com', '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', {}
+  # config.omniauth :google_oauth2, '363347043044-gf9r1drk66uqvcmc6esqk02his5lv8jv.apps.googleusercontent.com', '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', {}
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'

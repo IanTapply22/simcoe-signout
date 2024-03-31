@@ -9,6 +9,9 @@
                     Description
                 </th>
                 <th class="text-left text-h5">
+                    Deleted
+                </th>
+                <th class="text-left text-h5">
                     Actions
                 </th>
             </tr>
@@ -17,9 +20,13 @@
             <tr v-for="category in categories" :key="category.title">
                 <td>{{ category.title }}</td>
                 <td>{{ category.description }}</td>
+                <td>{{ category.deleted }}</td>
                 <td>
                     <v-btn color="red" class="mr-2" @click="deleteCategory(category.id)">
                         <v-icon>mdi-delete</v-icon> Delete
+                    </v-btn>
+                    <v-btn color="green" class="mr-2" @click="restoreCategory(category.id)">
+                        <v-icon>mdi-restore</v-icon> Restore
                     </v-btn>
                 </td>
             </tr>
@@ -51,6 +58,11 @@ export default {
          */
         async deleteCategory(id) {
             await this.categoriesStore.deleteCategory(id);
+            await this.categoriesStore.fetchCategoriesAdmin();
+            this.categories = this.categoriesStore.getCategories;
+        },
+        async restoreCategory(id) {
+            await this.categoriesStore.restoreCategory(id);
             await this.categoriesStore.fetchCategoriesAdmin();
             this.categories = this.categoriesStore.getCategories;
         }

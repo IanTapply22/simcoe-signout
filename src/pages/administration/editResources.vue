@@ -1,5 +1,6 @@
 <template>
     <v-row class="ml-3 mt-2 mr-3">
+
         <v-col cols="12" class="resource-column">
             <v-card>
 
@@ -36,55 +37,130 @@
                 </v-card-actions>
             </v-card>
         </v-col>
+
         <!-- Shows the list of resources available to edit or delete -->
-        <v-row class="ml-3 mt-2">
-            <v-col v-for="(resource, i) in resourcesStore.getResourcesByFilteredCategories" :key="i" cols="12" sm="6" md="4" lg="3"
-                class="resource-column">
-                <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5" max-width="350" width="100%">
-                    <div class="ml-2 mb-2 text-wrap">
+        <v-col cols="12">
+            <v-row>
+                <v-col cols="12">
+                    <h2>
+                        Active Resources
+                    </h2>
+                </v-col>
+            </v-row>
 
-                        <h3 class="mt-2">{{ resource.name }}</h3>
-                        <div class="text-h7 font-weight-medium">
-                            {{ resource.description }}
+            <v-row>
+                <v-col v-for="(resource, i) in resourcesStore.getUndeletedResources" :key="i" cols="12" sm="6" md="4" lg="3"
+                    class="resource-column">
+                    <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5" max-width="350"
+                        width="100%">
+                        <div class="ml-2 mb-2 text-wrap">
+
+                            <h3 class="mt-2">{{ resource.name }}</h3>
+                            <div class="text-h7 font-weight-medium">
+                                {{ resource.description }}
+                            </div>
+                            <h3 class="mt-2">Location: {{ resource.location }}</h3>
+                            <div>
+                                <v-chip v-for="tag in getTags(resource)" class="mt-2 mr-2" :color="tag.colour">
+                                    {{ tag.text }}
+                                </v-chip>
+                            </div>
+
+                            <!-- Action related buttons, these should only be shown to administrators -->
+                            <v-row class="mb-1 mt-3 ml-1">
+                                <v-btn class="mr-6" color="blue" variant="outlined" @click="editResource(resource)">
+                                    <v-icon class="mr-3">mdi-pencil</v-icon>
+                                    <h3>Edit</h3>
+                                </v-btn>
+                                <v-btn color="red" variant="elevated" @click="showDeletionConfirmation(resource)">
+                                    <v-icon class="mr-3">mdi-delete</v-icon>
+                                    <h3>Delete</h3>
+                                </v-btn>
+                            </v-row>
+
                         </div>
-                        <h3 class="mt-2">Location: {{ resource.location }}</h3>
-                        <div>
-                            <v-chip v-for="tag in getTags(resource)" class="mt-2 mr-2" :color="tag.colour">
-                                {{ tag.text }}
-                            </v-chip>
+                    </v-sheet>
+
+                    <v-dialog v-model="deletionPopupConfirmation" @click:outside="hidePopup" max-width="500">
+                        <v-card>
+                            <v-card-title class="headline">Delete Resource Confirmation</v-card-title>
+                            <v-card-text>
+                                <p>Are you sure you want to delete {{ stagedDeletionResource.name }}? (ID: {{
+                                    stagedDeletionResource.id }})</p>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="red" text @click="hidePopup">Cancel</v-btn>
+                                <v-btn color="green" text @click="confirmDelete">Confirm</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
+
+                </v-col>
+            </v-row>
+        </v-col>
+
+        <v-col cols="12">
+            <v-row>
+                <v-col cols="12">
+                    <h2>
+                        Inactive Resources
+                    </h2>
+                </v-col>
+            </v-row>
+            
+            <v-row class="mb-2">
+                <v-col v-for="(resource, i) in resourcesStore.getDeletedResources" :key="i" cols="12" sm="6" md="4" lg="3"
+                    class="resource-column">
+                    <v-sheet rounded="xl" class="d-flex flex-wrap text-wrap text-left px-3 mt-5" max-width="350"
+                        width="100%">
+                        <div class="ml-2 mb-2 text-wrap">
+
+                            <h3 class="mt-2">{{ resource.name }}</h3>
+                            <div class="text-h7 font-weight-medium">
+                                {{ resource.description }}
+                            </div>
+                            <h3 class="mt-2">Location: {{ resource.location }}</h3>
+                            <div>
+                                <v-chip v-for="tag in getTags(resource)" class="mt-2 mr-2" :color="tag.colour">
+                                    {{ tag.text }}
+                                </v-chip>
+                            </div>
+
+                            <!-- Action related buttons, these should only be shown to administrators -->
+                            <v-row class="mb-1 mt-3 ml-1">
+                                <v-btn class="mr-6" color="blue" variant="outlined" @click="editResource(resource)">
+                                    <v-icon class="mr-3">mdi-pencil</v-icon>
+                                    <h3>Edit</h3>
+                                </v-btn>
+                                <v-btn color="green" variant="elevated" @click="showRestorationConfirmation(resource)">
+                                    <v-icon class="mr-3">mdi-restore</v-icon>
+                                    <h3>Restore</h3>
+                                </v-btn>
+                            </v-row>
+
                         </div>
+                    </v-sheet>
 
-                        <!-- Action related buttons, these should only be shown to administrators -->
-                        <v-row class="mb-1 mt-3 ml-1">
-                            <v-btn class="mr-6" color="blue" variant="outlined" @click="editResource(resource)">
-                                <v-icon class="mr-3">mdi-pencil</v-icon>
-                                <h3>Edit</h3>
-                            </v-btn>
-                            <v-btn color="red" variant="elevated" @click="showConfirmation(resource)">
-                                <v-icon class="mr-3">mdi-delete</v-icon>
-                                <h3>Delete</h3>
-                            </v-btn>
-                        </v-row>
+                    <v-dialog v-model="restorationPopupConfirmation" @click:outside="hidePopup" max-width="500">
+                        <v-card>
+                            <v-card-title class="headline">Restore Resource Confirmation</v-card-title>
+                            <v-card-text>
+                                <p>Are you sure you want to restore {{ stagedRestorationResource.name }}? (ID: {{
+                                    stagedRestorationResource.id }})</p>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="red" text @click="hidePopup">Cancel</v-btn>
+                                <v-btn color="green" text @click="confirmRestoration">Confirm</v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
 
-                    </div>
-                </v-sheet>
+                </v-col>
+            </v-row>
+        </v-col>
 
-                <v-dialog v-model="showConfirmationDialog" @click:outside="hidePopup" max-width="500">
-                    <v-card>
-                        <v-card-title class="headline">Delete Resource Confirmation</v-card-title>
-                        <v-card-text>
-                            <p>Are you sure you want to delete {{ stagedDeletionResource.name }}? (ID: {{ stagedDeletionResource.id }})</p>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-spacer></v-spacer>
-                            <v-btn color="red" text @click="hidePopup">Cancel</v-btn>
-                            <v-btn color="green" text @click="confirmDelete">Confirm</v-btn>
-                        </v-card-actions>
-                    </v-card>
-                </v-dialog>
-
-            </v-col>
-        </v-row>
     </v-row>
 </template>
 
@@ -113,7 +189,10 @@ export default {
             categoriesStore: categoriesStore(),
 
             showConfirmationDialog: false,
-            stagedDeletionResource: null
+            restorationPopupConfirmation: false,
+            deletionPopupConfirmation: false,
+            stagedDeletionResource: null,
+            stagedRestorationResource: null
         }
     },
     methods: {
@@ -139,9 +218,7 @@ export default {
                 resourceLocation: this.resourceLocation,
                 resourceTags: this.tagsArray,
                 categoryId: this.categoriesStore.getCategoryId(this.resourceCategory)
-        });
-
-        console.log(this.resourceCategory)
+            });
 
             this.clearInput();
         },
@@ -208,20 +285,37 @@ export default {
          * Displays the confirmation dialog
          * @param resource The resource to show the popup for
          */
-        showConfirmation(resource) {
+        showDeletionConfirmation(resource) {
             this.stagedDeletionResource = resource;
-            this.showConfirmationDialog = true;
+            this.deletionPopupConfirmation = true;
+        },
+        /**
+         * Displays the restoration confirmation dialog
+         * @param resource The resource to show the popup for
+         */
+        showRestorationConfirmation(resource) {
+            this.stagedRestorationResource = resource;
+            this.restorationPopupConfirmation = true;
         },
         /**
          * Hides the confirmation dialog
          */
         hidePopup() {
-            this.showConfirmationDialog = false;
+            this.deletionPopupConfirmation = false;
+            this.restorationPopupConfirmation = false;
+        },
+        async confirmDelete() {
+            this.resourcesStore.deleteResource(this.stagedDeletionResource.id)
+            this.hidePopup();
+        },
+        async confirmRestoration() {
+            this.resourcesStore.restoreResource(this.stagedRestorationResource.id)
+            this.hidePopup();
         },
         /**
          * Confirms the deletion of a resource and closes the popup
          */
-        confirmDelete() {
+        async confirmDelete() {
             this.resourcesStore.deleteResource(this.stagedDeletionResource.id)
             this.hidePopup();
         }
@@ -230,7 +324,7 @@ export default {
      * Fetches all resources when this page is mounted
      */
     async mounted() {
-        await this.resourcesStore.fetchResources();
+        await this.resourcesStore.fetchAllResourcesAdmin();
         await this.categoriesStore.fetchCategoryNames();
         await this.categoriesStore.fetchCategoriesAdmin();
     }

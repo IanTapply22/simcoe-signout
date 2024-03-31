@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Description: Gets all bookings and disregards deleted ones. Can filter by start_date, end_date, period, and resource_id
+# Request URI: GET https://api.simcoesignout.com/api/admin/bookings
 module Admin
   module Bookings
     class Get < Grape::API
@@ -56,11 +60,12 @@ module Admin
           @resource_bookings = ResourceBooking.all
         end
 
-        @resource_bookings = @resource_bookings.map do |booking|
+        @resource_bookings = @resource_bookings.reject { |booking| booking.deleted }.map do |booking|
+
           resource = Resource.find_by_id(booking.resource_id)
-          booking.attributes.merge(resourceName: resource ? resource.name : "Unknown")
+          booking.attributes.merge(resourceName: resource ? resource.name : 'Unknown')
         end
-        
+
         present(@resource_bookings)
       end
     end

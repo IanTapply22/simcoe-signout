@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 export const categoriesStore = defineStore({
     id: 'categories',
     state: () => ({
-        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/core/categories`,
-        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/admin/categories`,
+        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/categories`,
+        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/categories`,
         categories: [] as Category[],
         categoryNames: [] as string[],
     }),
@@ -34,7 +34,6 @@ export const categoriesStore = defineStore({
     actions: {
         getCategoryName (categoryId: number) {
             const category = this.categories.find(category => category.id === categoryId);
-            console.log(category)
             return category ? category.title : '';
         },
         /**
@@ -56,9 +55,9 @@ export const categoriesStore = defineStore({
          */
         async fetchCategoryNames() {
             const url = `${this.api_uri}`
-            const categories = await getRequest(url);
+            const fetchedCateogires = await getRequest(url);
 
-            this.categoryNames = categories.map((category: Category) => {
+            this.categoryNames = fetchedCateogires.map((category: Category) => {
                 return category.title;
             });
         },
@@ -113,5 +112,13 @@ export const categoriesStore = defineStore({
             await deleteRequest(url);
             this.categories = this.categories.filter(resource => resource.id !== id);
         },
+        async restoreCategory(id: number) {
+            const url = `${this.admin_api_uri}/${id}/restore`
+            const headers = {
+                'Content-Type': 'application/json'
+            }
+            const body = JSON.stringify({})
+            await putRequest(url, headers, body);
+        }
     }
 })

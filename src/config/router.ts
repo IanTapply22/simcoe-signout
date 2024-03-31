@@ -10,7 +10,7 @@ import Categories from '@pages/administration/categories.vue';
 import { authenticationStore } from '@/stores/authentication';
 import { VueCookies } from 'vue-cookies';
 import { inject } from 'vue';
-import myBookings from '@/pages/account/myBookings.vue';
+import myBookings from '@pages/account/myBookings.vue';
 
 const routes: RouteRecordRaw[] = [
   // "publicly" accessible routes (google authentication required (dsbn.org))

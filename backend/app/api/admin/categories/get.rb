@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
+# Description: Gets all categories and even includes deleted ones
+# Request URI: GET https://api.simcoesignout.com/api/admin/categories
 module Admin
-    module Categories
-        class Get < Grape::API
-            get do
-                categories = Category.all
+  module Categories
+    class Get < Grape::API
+      get do
+        categories = Category.all
 
-                if categories.nil?
-                    error!({ error: "Categories not found" }, 404)
-                end
+        error!({ error: 'Categories not found' }, 404) if categories.nil?
 
-                present(categories)
-            end
-        end
+        present(categories)
+      end
     end
+  end
 end

@@ -6,8 +6,8 @@ import { defineStore } from 'pinia';
 export const authenticationStore = defineStore({
   id: 'authentication',
   state: () => ({
-    api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/core/users`,
-    admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com'}/api/admin/users`,
+    api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/users`,
+    admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/users`,
     users: [],
   }),
   actions: {

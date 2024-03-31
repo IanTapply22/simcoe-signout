@@ -1,8 +1,9 @@
-class ResourceBooking < ApplicationRecord
+# frozen_string_literal: true
 
-    def self.find_by_id(id)
-      where(id: id).first
-    end
+class ResourceBooking < ApplicationRecord
+  def self.find_by_id(id)
+    where(id: id).first
+  end
 
   def self.update(id, booking)
     # Find the booking with the given id
@@ -18,9 +19,9 @@ class ResourceBooking < ApplicationRecord
     end
   end
 
-  def self.get_bookings_for_resource_on_date(resourceName, date)
+  def self.get_bookings_for_resource_on_date(resourceId, date)
     # Find all bookings for the given resource
-    bookings = where(resourceName: resourceName)
+    bookings = where(id: resourceId)
 
     # Find all bookings that contain the given date
     bookings.select do |booking|
