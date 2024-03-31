@@ -5,8 +5,8 @@ import { deleteRequest, getRequest, postRequest } from '@/utils/request';
 export const bookingsStore = defineStore({
     id: 'bookings',
     state: () => ({
-        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/bookings`,
-        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/bookings`,
+        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'https://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/bookings`,
+        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'https://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/bookings`,
         validPeriods: [1, 2, 3, 4],
         bookings: [] as any[],
 

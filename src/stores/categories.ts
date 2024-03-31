@@ -4,8 +4,8 @@ import { defineStore } from 'pinia'
 export const categoriesStore = defineStore({
     id: 'categories',
     state: () => ({
-        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/categories`,
-        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/categories`,
+        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'https://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/categories`,
+        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'https://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/categories`,
         categories: [] as Category[],
         categoryNames: [] as string[],
     }),
