@@ -18,11 +18,12 @@ class User < ApplicationRecord
     if auth.present? && (ENV.fetch('ALLOWED_EMAIL_DOMAINS').split(',').any? do |domain|
                            auth.info.email.end_with?(domain.strip)
                          end || ENV.fetch('ALLOWED_EMAILS').include?(auth.info.email))
-      where(uid: auth.uid).first_or_create do |user|
+      user = where(uid: auth.uid).first_or_create do |user|
         user.email = auth.info.email
         user.full_name = auth.info.name
         user.avatar_url = auth.info.image
       end
+      user
     else
       # Return nil if the auth object is nil or the email address is not valid
       nil
