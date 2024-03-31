@@ -22,6 +22,6 @@ jobs:
 
       - uses: caprover/deploy-from-github@main
         with:
-          server: '${{ secrets.CAPROVER_SERVER_BACKEND_STAGIN }}'
+          server: '${{ secrets.CAPROVER_SERVER_BACKEND_STAGING }}'
           app: '${{ secrets.APP_NAME_BACKEND_STAGING }}'
           token: '${{ secrets.APP_TOKEN_BACKEND_STAGING }}'

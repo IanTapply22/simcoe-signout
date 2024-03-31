@@ -37,4 +37,4 @@ jobs:
         with:
           server: '${{ secrets.CAPROVER_SERVER_STAGING }}'
           app: '${{ secrets.APP_NAME_STAGING }}'
-          token: '${{ secrets.APP_TOKEN_STAGINGs }}'
+          token: '${{ secrets.APP_TOKEN_STAGING }}'
