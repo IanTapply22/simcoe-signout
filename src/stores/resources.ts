@@ -6,8 +6,8 @@ import { deleteRequest, getRequest, postRequest, putRequest } from '@/utils/requ
 export const resourcesPageStore = defineStore({
     id: 'resources',
     state: () => ({
-        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/resources`,
-        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stg.api.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/resources`,
+        api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/core/resources`,
+        admin_api_uri: `${import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'http://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com'}/api/admin/resources`,
         categories: [
             'Category 1',
             'Category 2',
