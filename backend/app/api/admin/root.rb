@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 include ActionController::Cookies
 module Admin
   class Root < Grape::API
@@ -14,10 +16,10 @@ module Admin
       # Gracefully handle plz
     end
     rescue_from ActiveRecord::RecordNotFound do |e|
-     # error!('403 record not found', 403)
+      # error!('403 record not found', 403)
     end
     rescue_from :all do |e|
-      # Gracefully handle plz
+      error!(e.message, 500)
     end
 
     before do
@@ -30,7 +32,7 @@ module Admin
       end
 
       def authenticate!
-        error!('401 Unauthorized', 401) unless current_user && current_user.role == "administrator"
+        error!('401 Unauthorized', 401) unless current_user && current_user.role == 'administrator'
       end
     end
 

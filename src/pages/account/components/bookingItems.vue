@@ -28,14 +28,14 @@
               </template>
             </v-menu>
 
-            <h5>Created {{ getISO8601Date(booking.created_at) }} at {{ getISO8601Time(booking.created_at) }} (ID: {{
-              booking.id }})</h5>
+            <h5>Created {{ getISO8601Date(booking.created_at) }} at {{ getISO8601Time(booking.created_at) }} (ID: {{ booking.id }})</h5>
           </div>
         </v-sheet>
       </v-row>
     </v-col>
   </v-row>
 
+  <!-- Booking cancellation confirm dialog -->
   <v-dialog v-model="showConfirmationDialog" max-width="500">
     <v-card>
       <v-card-title class="headline">Cancel Booking Confirmation</v-card-title>

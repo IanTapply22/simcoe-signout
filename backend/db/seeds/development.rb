@@ -1,25 +1,43 @@
+# Generate users with both the member and administrator roles
 [
   {
-    full_name: 'Seed User',
-    email: 'seeduser@local.host',
-    role: 'admin',
-    uid: 'TheSeedUser',
+    full_name: 'Member User',
+    email: 'member@local.host',
+    role: 'member',
+    uid: '123456789012345678901',
+    avatar_url: 'avatar_url.local.host'
+  },
+  {
+    full_name: 'Admin User',
+    email: 'admin@local.host',
+    role: 'administrator',
+    uid: '123456789012345678901',
     avatar_url: 'avatar_url.local.host'
   }
 ].each { |user| User.find_or_create_by!(user) }
+
+# Generate the categories to use when creating the resources that use them
+seedCategoryTitle = 'robots'
+
+[
+  {
+    title: seedCategoryTitle,
+    description: 'A robot used by team 1114.'
+  }
+].each { |category| Category.find_or_create_by!(category) }
 
 [
   {
     name: 'Sushi Robot',
     description: 'A cute little robot capable of bringing food to your table',
     location: 'Diramio\'s room',
-    category: 'robots'
+    category_id: Category.find_by_title(seedCategoryTitle).id
   },
   {
     name: '1114 Test Robot',
     description: 'This robot hates the Sushi Robot, because Sushi Robot is stopping the students from learning FRC Code',
     location: 'Robot Storage Closet',
-    category: 'robots'
+    category_id: Category.find_by_title(seedCategoryTitle).id
   }
 ].each { |resource| Resource.find_or_create_by!(resource) }
 
@@ -62,11 +80,12 @@ booked_periods = {}
   booked_periods[resource_name][random_date] ||= []
   booked_periods[resource_name][random_date] << period
 
-  ResourceBooking.create(
-    resourceName: resource_name,
-    bookedBy: 'Seed User',
-    bookingDates: [{ date: random_date.to_date, period: period }],
+  ResourceBooking.find_or_create_by(
+    bookedBy: 'Member User',
+    bookingDates: [{ date: random_date.to_date, period: period}],
     destination: destinations.sample,
-    comments: comments.sample
+    comments: comments.sample,
+    bookedById: User.find_by_full_name('Member User').id,
+    resource_id: Resource.find_by_name(resource_name).id
   )
 end

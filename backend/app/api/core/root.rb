@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Core
   class Root < Grape::API
     # General Setup
     version 'v1', using: :accept_version_header
     format :json
-    prefix :api
+    prefix 'api/core'
 
     # helpers Config::ErrorCodes
     # helpers Config::ErrorMessages
@@ -16,7 +18,11 @@ module Core
       # Gracefully handle plz
     end
     rescue_from :all do |e|
-      # error!(e.message, 500)
+      error!(e.message, 500)
+    end
+
+    before do
+      authenticate!
     end
 
     helpers do

@@ -274,11 +274,15 @@ export default {
                 });
                 this.resetAllVariables();
                 this.closeBookingMenu(index);
-                this.bookingsStore.fetchAllBookings();
             } catch (error) {
                 // Handle the error appropriately
                 console.error('Error occurred during booking:', error);
             }
+
+            // wait 200ms for the booking to be created
+            await new Promise(resolve => setTimeout(resolve, 200));
+
+            await this.bookingsStore.fetchAllBookings();
         },
         /**
          * Move to next phase of booking
@@ -324,6 +328,7 @@ export default {
                             break;
                     }
 
+                    if (!booking.deleted) {
                     bookings.push({
                         resourceName: booking.resourceName,
                         period: bookingDate.period,
@@ -332,6 +337,7 @@ export default {
                         bookerLastName: booking.bookedBy.split(' ')[1],
                         color: color,
                     });
+                }
                 });
             });
 

@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# Description: Gets all bookings but excludes deleted ones
+# Request URI: GET https://api.simcoesignout.com/api/core/bookings
 module Core
   module Bookings
     class Get < Grape::API
@@ -61,7 +65,8 @@ module Core
           end
         end
 
-        response = @resource_bookings.map do |booking|
+        response = @resource_bookings.reject { |booking| booking.deleted }.map do |booking|
+
           {
             bookedBy: booking.bookedBy,
             resourceName: Resource.find_by_id(booking.resource_id).name,
@@ -73,7 +78,7 @@ module Core
               hash[:created_at] = booking.created_at
             end
           end
-        end
+        end.compact
 
         present(response)
       end
