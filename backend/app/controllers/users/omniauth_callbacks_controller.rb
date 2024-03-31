@@ -25,7 +25,11 @@ module Users
     protected
 
     def after_omniauth_failure_path_for(_scope)
-      'https://simcoesignout.com'
+      if Rails.env.production?
+        'https://simcoesignout.com'
+      else
+        'https://staging.simcoesignout.com'
+      end
     end
 
     def after_sign_in_path_for(resource_or_scope)
