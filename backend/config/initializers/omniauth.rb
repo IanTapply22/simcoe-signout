@@ -16,7 +16,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
              skip_jwt: true, scope: 'email, profile', redirect_uri: 'http://127.0.0.1:3000/users/auth/google_oauth2/callback'
   end
 
-  if Rails.env.staging?
+  if Rails.env.test?
     provider :google_oauth2, ENV.fetch('GOOGLE_CLIENT_ID', nil), ENV.fetch('GOOGLE_CLIENT_SECRET', nil),
               skip_jwt: true, scope: 'email, profile', redirect_uri: 'https://stgapi.simcoesignout.com/users/auth/google_oauth2/callback'
   end
