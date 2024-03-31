@@ -35,7 +35,7 @@ export default {
      * Once we've got confirmation of the token, route them to the home page, else show snackbar
      */
     openGoogleLoginPopup() {
-      const apiURI = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : 'https://api.simcoesignout.com';
+      const apiURI = import.meta.env.MODE === 'development' ? 'http://127.0.0.1:3000' : import.meta.env.MODE === 'staging' ? 'https://stgapi.simcoesignout.com' : 'https://api.simcoesignout.com';
       var popup = window.open(`${apiURI}/users/auth/google_oauth2`, '_blank');
 
       const handleMessage = async (event) => {
