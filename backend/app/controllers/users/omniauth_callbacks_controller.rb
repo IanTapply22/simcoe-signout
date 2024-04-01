@@ -14,7 +14,7 @@ module Users
           domain: if Rails.env.production?
                     ['simcoesignout.com', 'api.simcoesignout.com']
                   elsif Rails.env.test?
-                    ['stgapi.simcoesignout.com', 'staging.simcoesignout.com']
+                    ['stgapi.simcoesignout.com']
                   else
                     '127.0.0.1'
                   end,
