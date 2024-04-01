@@ -11,22 +11,7 @@ module Users
         auth_token = JsonWebToken.encode(user_id: user.id, user_full_name: user.full_name, user_role: user.role)
         cookies[:auth_token] = {
           value: auth_token,
-          domain: if Rails.env.production?
-                    ['api.simcoesignout.com']
-                  elsif Rails.env.test?
-                    ['stgapi.simcoesignout.com']
-                  else
-                    '127.0.0.1'
-                  end,
-          expires: 30.minutes
-        }
-        cookies[:auth_token] = {
-          value: auth_token,
-          domain: if Rails.env.production?
-                    ['simcoesignout.com']
-                  elsif Rails.env.test?
-                    ['staging.simcoesignout.com']
-                  end,
+          domain: Rails.env.production? ? '.simcoesignout.com' : '127.0.0.1',
           expires: 30.minutes
         }
         render html: "<script>window.opener.postMessage({ auth_token: '#{auth_token}' }, '*'); window.close();</script>".html_safe,
