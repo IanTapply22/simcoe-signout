@@ -22,7 +22,7 @@
             <v-divider />
 
             <v-expand-transition>
-                <v-card v-if="bookingPhaseIndex == 0" class="v-card--reveal">
+                <v-card v-if="bookingPhaseIndex == 0" class="v-card--reveal scroll">
                     <v-row class="text-center align-center justify-center">
                         <v-col class="py-5">
                             <h2 class="mb-2">{{ resource.name }}</h2>
@@ -431,5 +431,9 @@ export default {
 .flexcard {
     display: flex;
     flex-direction: column;
+}
+
+.scroll {
+    overflow-y: auto;
 }
 </style>
