@@ -12,11 +12,20 @@ module Users
         cookies[:auth_token] = {
           value: auth_token,
           domain: if Rails.env.production?
-                    ['simcoesignout.com', 'api.simcoesignout.com']
+                    ['api.simcoesignout.com']
                   elsif Rails.env.test?
                     ['stgapi.simcoesignout.com']
                   else
                     '127.0.0.1'
+                  end,
+          expires: 30.minutes
+        }
+        cookies[:auth_token] = {
+          value: auth_token,
+          domain: if Rails.env.production?
+                    ['simcoesignout.com']
+                  elsif Rails.env.test?
+                    ['staging.simcoesignout.com']
                   end,
           expires: 30.minutes
         }
