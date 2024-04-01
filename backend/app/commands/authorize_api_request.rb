@@ -23,6 +23,6 @@ class AuthorizeApiRequest
   end
 
   def cookie_auth_value
-    @cookies['auth_token'].presence || error!({ error: 'Missing token'})
+    @cookies['auth_token'].presence || raise('Missing token')
   end
 end

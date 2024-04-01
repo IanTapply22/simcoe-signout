@@ -21,9 +21,9 @@ module Core
       error!(e.message, 500)
     end
 
-    # before do
-    #   authenticate!
-    # end
+    before do
+      authenticate!
+    end
 
     helpers do
       def current_user
