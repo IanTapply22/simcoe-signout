@@ -18,11 +18,11 @@ development:
 
 test:
   <<: *default
-  database: dsbn-resource-booking-test
+  database: dsbn-resource-booking
   username: postgres
   password: <%= ENV["POSTGRES_PASSWORD"] %>
-  host: srv-captain--dsbn-postgres
-  port: 5432
+  host: srv-captain--dsbn-postgres-stag
+  port: 5433
 
 production:
   <<: *default
