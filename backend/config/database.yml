@@ -22,7 +22,7 @@ test:
   username: postgres
   password: <%= ENV["POSTGRES_PASSWORD"] %>
   host: srv-captain--dsbn-postgres-stag
-  port: 5433
+  port: 5432
 
 production:
   <<: *default
