@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.24.1",
-    "@babel/preset-env": "^7.24.4",
+    "@babel/preset-env": "^7.24.7",
     "@mdi/font": "^7.4.47",
     "@typescript-eslint/eslint-plugin": "^5.59.7",
     "@vitejs/plugin-vue": "^4.6.2",
