@@ -16,7 +16,7 @@ gem 'omniauth', '~> 2.1'
 gem 'omniauth-google-oauth2', '~> 1.1'
 
 gem 'grape', '~> 2.0'
-gem 'grape-entity', '~> 1.0.0'
+gem 'grape-entity', '~> 1.0.1'
 gem 'grape-swagger', '~> 2.0'
 
 gem 'devise-jwt', '~> 0.11.0'
